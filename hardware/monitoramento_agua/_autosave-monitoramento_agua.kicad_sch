@@ -1,0 +1,60 @@
+(kicad_sch
+	(version 20260306)
+	(generator "eeschema")
+	(generator_version "10.0")
+	(uuid "7c90f292-012d-4396-a18a-1f7e1abdcd81")
+	(paper "A4")
+	(lib_symbols)
+	(sheet
+		(at 177.546 50.8)
+		(size 34.29 29.972)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0)
+		)
+		(uuid "740659ff-9747-4fee-a99a-4c72a81f19d0")
+		(property "Sheetname" "MCU"
+			(at 177.546 50.0884 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "atmega328p_sch.kicad_sch"
+			(at 177.546 81.3566 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "monitoramento_agua"
+				(path "/7c90f292-012d-4396-a18a-1f7e1abdcd81"
+					(page "2")
+				)
+			)
+		)
+	)
+	(sheet_instances
+		(path "/"
+			(page "1")
+		)
+	)
+	(embedded_fonts no)
+)
