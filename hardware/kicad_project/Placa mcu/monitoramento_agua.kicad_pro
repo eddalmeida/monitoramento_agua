@@ -396,7 +396,7 @@
       "default_line_thickness": 6.0,
       "default_text_size": 50.0,
       "field_names": [],
-      "hop_over_size_choice": 0,
+      "hop_over_size_choice": 3,
       "intersheets_ref_own_page": false,
       "intersheets_ref_prefix": "",
       "intersheets_ref_short": false,
@@ -417,7 +417,7 @@
     "meta": {
       "version": 1
     },
-    "page_layout_descr_file": "kicad-embed://folha_desenho_ifsc_wks.kicad_wks",
+    "page_layout_descr_file": "kicad-embed://folha_desenho_rica.kicad_wks",
     "plot_directory": "",
     "reuse_designators": true,
     "subpart_first_id": 65,
@@ -429,17 +429,13 @@
         "uuid": "7c90f292-012d-4396-a18a-1f7e1abdcd81"
       }
     ],
-    "used_designators": "SW1,R1,J1,Y1,#PWR1-10,C1-5",
+    "used_designators": "#FLG1-2,RV1,DS1,U1-3,SW1-3,R1-9,Z1-2,J1-4,Y1-2,#PWR1-29,D1-2,C1-12",
     "variants": []
   },
   "sheets": [
     [
       "7c90f292-012d-4396-a18a-1f7e1abdcd81",
       "Raiz"
-    ],
-    [
-      "740659ff-9747-4fee-a99a-4c72a81f19d0",
-      "MCU"
     ]
   ],
   "text_variables": {},

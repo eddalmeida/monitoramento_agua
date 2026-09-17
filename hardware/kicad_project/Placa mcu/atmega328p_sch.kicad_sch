@@ -2348,7 +2348,7 @@
 		)
 		(uuid "01051a23-d45e-40fe-96ca-43f888cf06fe")
 	)
-	(label "AREV"
+	(label "AREF"
 		(at 203.2 72.39 0)
 		(effects
 			(font
@@ -2398,7 +2398,7 @@
 		)
 		(uuid "c3fc3bc2-424f-4c2e-8092-a613baeaee7a")
 	)
-	(label "AREV"
+	(label "AREF"
 		(at 166.37 72.39 0)
 		(effects
 			(font

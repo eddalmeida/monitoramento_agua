@@ -1,0 +1,34 @@
+# ==========================================
+# KiCad - Arquivos Temporários e Pessoais
+# ==========================================
+
+# Preferências locais do usuário (zoom, posição de tela, janelas)
+*.kicad_prl
+
+# Arquivos de bloqueio (criados quando o KiCad está aberto)
+*.lck
+~*
+
+# Salvamento automático e backups
+_autosave-*
+*.bak
+*-backups/
+
+# Cache de footprints e símbolos
+fp-info-cache
+/sym-lib-table.tmp
+
+# ==========================================
+# Saídas de Fabricação e Renderização (Opcional)
+# ==========================================
+# Descomente as linhas abaixo se não quiser enviar arquivos
+# de fabricação (Gerber) ou PDFs para o repositório Git:
+
+# *.gbr
+# *.drl
+# *.pdf
+# *.svg
+# *.step
+# *.stp
+# /plots/
+# /gerber/
