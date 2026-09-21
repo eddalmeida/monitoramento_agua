@@ -87,7 +87,7 @@ Placa analógica dedicada ao tratamento de altas impedâncias e sinais de baixa 
 
 1. Clone este repositório para o seu computador:
    ```bash
-   git clone https://github.com/seu-usuario/seu-repositorio.git
+   git clone https://github.com/eddalmeida/monitoramento_agua.git
    ```
 2. Abra o KiCad.
 3. Para a placa do microcontrolador: Vá em **Arquivo > Abrir Projeto** e selecione `hardware/placa_mcu/placa_mcu.kicad_pro`.
