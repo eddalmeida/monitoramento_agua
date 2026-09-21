@@ -1,100 +1,54 @@
-# Sistema de Monitoramento de pH, EC e Temperatura
+# Sistema de Monitoramento de Água 🌊
 
-Este repositório contém os arquivos de hardware desenvolvidos no **KiCad** para o sistema de monitoramento de parâmetros físico-químicos da água, com foco em medições de **pH**, **Condutividade Elétrica (EC)** e **Temperatura**.
-
-O projeto foi projetado de forma modular, dividido em **duas placas de circuito impresso (PCBs)** interconectadas para otimizar o condicionamento de sinal analógico e evitar ruídos de interferência no microcontrolador.
+Este repositório contém os arquivos de projeto de hardware e firmware para um **Sistema de Monitoramento de Água**, focado na leitura, condicionamento de sinal e exibição dos parâmetros de **pH** e **Condutividade Elétrica (CE)**.
 
 ---
 
 ## 🛠️ Arquitetura do Sistema
 
-A arquitetura do projeto é dividida nos seguintes módulos:
+O projeto é baseado no microcontrolador **ATmega328P** e subdividido nos seguintes blocos funcionais de hardware:
 
-```
-                  ┌──────────────────────────────────────────────┐
-                  │              Placa 1: MCU                    │
-                  │                                              │
-┌──────────────┐  │   ┌────────────────┐     ┌──────────────┐   │
-│ Sensores     │──┼──>│ ATmega328P     │────>│ Interfaces   │   │
-│ Temp (DS18B20)│ │   │ (Microcontrol) │     │ (Display/UART)│  │
-└──────────────┘  │   └───────▲────────┘     └──────────────┘   │
-                  └───────────┼──────────────────────────────────┘
-                              │ Sinal Analógico Filtrado
-                  ┌───────────┴──────────────────────────────────┐
-                  │ Placa 2: Condicionamento de Sinal            │
-                  │                                              │
-┌──────────────┐  │   ┌────────────────┐     ┌──────────────┐   │
-│ Sonda pH     │──┼──>│ Amplificadores │    │ Conectores   │   │
-└──────────────┘  │   │ Operacionais   │────>│ BNC / Bornes │   │
-┌──────────────┐  │   │ e Filtros      │     └──────────────┘   │
-│ Sonda EC     │──┼──>│                │                        │
-└──────────────┘  │   └────────────────┘                        │
-                  └──────────────────────────────────────────────┘
-```
+1. **Fonte de Alimentação**:
+   - Conector de entrada `VIN` (+5V).
+   - Gerador de tensão negativa **ICL7660** para obtenção de **-5V**, garantindo alimentação simétrica para os amplificadores operacionais.
+   - LEDs de indicação de status.
 
----
+2. **Microcontrolador (ATmega328P)**:
+   - Operando com cristal externo de **16 MHz**.
+   - Interface de gravação **AVR-ISP-6** (In-System Programming).
+   - Leitura analógica dos sinais condicionados nas portas `ADC0` (pH) e `ADC1` (Condutividade Elétrica).
+   - Interface com sensor digital via conector de dados (`DATA` / Pino `PD4` com *pull-up*).
 
-## 📐 Estrutura do Hardware
+3. **Condicionamento de Sinal de pH**:
+   - Desenvolvido com o amplificador operacional **MCP6002**.
+   - **Primeiro estágio (Offset)**: Referência de tensão ajustável de 2,4V via trimpot para deslocar o sinal do eletrodo de pH (que varia em milivolts positivos e negativos).
+   - **Segundo estágio (Ganho)**: Configuração de amplificador não-inversor com ganho ajustável via trimpot (`RV3 100K`) para calibração da faixa de leitura `AD_PH`.
 
-### 1. Placa MCU (`/hardware/placa_mcu`)
-Placa responsável pelo processamento dos dados, leitura dos sinais analógicos e comunicação externa.
+4. **Condicionamento de Sinal de Condutividade Elétrica (CE)**:
+   - Gerador de frequência/onda usando o CI **CD4060** e alimentado em **+3V / -3V**.
+   - Circuito de condicionamento de sinal baseado no Quad Op-Amp **LMV324**.
+   - Retificador/Filtro ativo utilizando diodos `1N4002` e estágios de filtragem RC (`1µF` / `10kΩ`) para entregar um sinal contínuo `AD_EC` proporcional à condutividade da água.
 
-* **Microcontrolador:** ATmega328P (Encapsulamento TQFP/DIP).
-* **Alimentação:** Regulador de tensão integrado e circuitos de filtragem de alimentação.
-* **Comunicação & Periféricos:** 
-  * Pinos de expansão para displays (LCD/OLED) ou conectores de comunicação (UART/I2C/SPI).
-  * Interface para sensor digital de temperatura (ex: DS18B20).
-  * Entradas analógicas protegidas para recepção dos sinais vindo da placa de condicionamento.
-
-### 2. Placa de Condicionamento de Sinal (`/hardware/placa_condicionamento`)
-Placa analógica dedicada ao tratamento de altas impedâncias e sinais de baixa amplitude provenientes dos eletrodos.
-
-* **Condicionamento de pH:** Amplificador operacional de altíssima impedância de entrada (como TL082 ou CA3140) em configuração de ganho e offset ajustáveis para adequar o sinal da sonda (mV) à escala $0 - 5\text{V}$ do ATmega328P.
-* **Condicionamento de EC:** Circuito de excitação em corrente alternada (AC) para a célula de condutividade (evitando a polarização dos eletrodos) e circuito retificador/filtro para conversão em tensão contínua (DC).
-* **Conexões de Entrada:** Conectores BNC para sondas de pH e conectores de borne/jST para a célula de EC.
+5. **Display / Interface Homem-Máquina**:
+   - Módulo **LCD 16x2 (WC1602A)** operando em modo de comunicação de 4 bits (`D0`-`D3` / `Enable` / `RS`).
+   - Trimpot de 10kΩ (`RV2`) dedicado ao ajuste de contraste do LCD.
 
 ---
 
-## 📂 Estrutura de Pastas do Repositório
+## 📂 Estrutura do Repositório
 
 ```text
 .
-├── hardware/
-│   ├── placa_mcu/                 # Projeto KiCad da Placa Principal (MCU)
-│   │   ├── placa_mcu.kicad_pro
-│   │   ├── placa_mcu.kicad_sch
-│   │   └── placa_mcu.kicad_pcb
-│   │
-│   └── placa_condicionamento/     # Projeto KiCad da Placa Analógica
-│       ├── condicionamento.kicad_pro
-│       ├── condicionamento.kicad_sch
-│       └── condicionamento.kicad_pcb
-│
-├── .gitignore                     # Arquivos temporários e backups do KiCad ignorados
-└── README.md                      # Documentação do projeto
-```
-
----
-
-## 💻 Ferramentas Utilizadas
-
-* **KiCad EDA** (Versão 7.0 ou superior) - Para esquemáticos e layout das placas.
-* **Git / GitHub** - Versionamento do código-fonte dos esquemáticos e layouts.
-
----
-
-## 🚀 Como Abrir o Projeto no KiCad
-
-1. Clone este repositório para o seu computador:
-   ```bash
-   git clone https://github.com/eddalmeida/monitoramento_agua.git
-   ```
-2. Abra o KiCad.
-3. Para a placa do microcontrolador: Vá em **Arquivo > Abrir Projeto** e selecione `hardware/placa_mcu/placa_mcu.kicad_pro`.
-4. Para a placa de condicionamento: Vá em **Arquivo > Abrir Projeto** e selecione `hardware/placa_condicionamento/condicionamento.kicad_pro`.
-
----
-
-## 📝 Licença
-
-Este projeto está sob a licença [MIT](LICENSE) - sinta-se à vontade para modificar e utilizar para fins acadêmicos ou comerciais.
+├── firmware/                     # Código-fonte para o microcontrolador ATmega328P
+├── hardware/                     # Arquivos do projeto de hardware
+│   ├── esquematico/             # Documentação exportada em PDF
+│   │   └── monitoramento_agua.pdf
+│   └── kicad_project/           # Projeto no KiCad (v10.0.5)
+│       ├── Atmega328p_sch.kicad_sch
+│       ├── condicionamento_ec_sch.kicad_sch
+│       ├── Condicionamento_PH_sch.kicad_sch
+│       ├── display_sch.kicad_sch
+│       ├── fonte_sch.kicad_sch
+│       ├── monitoramento_agua.kicad_pro
+│       └── monitoramento_agua.kicad_sch
+└── README.md                    # Documentação do projeto
