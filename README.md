@@ -10,7 +10,8 @@ O projeto é baseado no microcontrolador **ATmega328P** e subdividido nos seguin
 
 1. **Fonte de Alimentação**:
    - Conector de entrada `VIN` (+5V).
-   - Gerador de tensão negativa **ICL7660** para obtenção de **-5V**, garantindo alimentação simétrica para os amplificadores operacionais.
+   - Regulador LDO 3V
+   - Gerador de tensão negativa **ICL7660** para obtenção de **-3V**, garantindo alimentação simétrica para os amplificadores operacionais.
    - LEDs de indicação de status.
 
 2. **Microcontrolador (ATmega328P)**:
@@ -39,9 +40,9 @@ O projeto é baseado no microcontrolador **ATmega328P** e subdividido nos seguin
 
 ```text
 .
-├── firmware/                     # Código-fonte para o microcontrolador ATmega328P
-├── hardware/                     # Arquivos do projeto de hardware
-│   ├── esquematico/             # Documentação exportada em PDF
+├── firmware/                               # Código-fonte para o microcontrolador ATmega328P
+├── hardware/                               # Arquivos do projeto de hardware
+│   ├── esquematico/                        # Documentação exportada em PDF
 │   │   └── monitoramento_agua.pdf
 │   └── kicad_project/           # Projeto no KiCad (v10.0.5)
 │       ├── Atmega328p_sch.kicad_sch
